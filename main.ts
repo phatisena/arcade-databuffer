@@ -29,7 +29,8 @@ namespace DataBuffer {
      * @returns after convert buffer to text
      */
     //% blockid=databuff_decode_string
-    //% block="get buffer of $bufv=buffer convert to string"
+    //% block="get buffer of $bufv convert to string"
+    //% bufv.shadow=variables_get bufv.defl=Buffer
     //% group="string"
     //% weight=75
     export function decodeText(bufv: Buffer) {
@@ -59,7 +60,8 @@ namespace DataBuffer {
      * @returns after convert buffer to array of string
      */
     //% blockid=databuff_decode_string_array
-    //% block="get buffer of $bufv+=buffer convert to string array"
+    //% block="get buffer of $bufv convert to string array"
+    //% bufv.shadow=variables_get bufv.defl=Buffer
     //% group="string"
     //% weight=25
     export function decodeTextArr(bufv: Buffer) {
@@ -94,7 +96,8 @@ namespace DataBuffer {
      * @returns after convert buffer string to image
      */
     //% blockid=databuff_decode_image
-    //% block="get buffer of $bufv=buffer convert to image"
+    //% block="get buffer of $bufv convert to image"
+    //% bufv.shadow=variables_get bufv.defl=Buffer
     //% group="image"
     //% weight=50
     export function decodeImage(bufv: Buffer) {
