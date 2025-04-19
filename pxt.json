@@ -1,5 +1,6 @@
 {
     "name": "arcade-databuffer",
+    "version": "0.0.1",
     "description": "buffer converter for makecode arcade",
     "dependencies": {
         "device": "*"
