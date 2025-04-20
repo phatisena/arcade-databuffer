@@ -19,7 +19,7 @@ namespace DataBuffer {
     //% block="get string of $txtv convert to buffer"
     //% group="string"
     //% weight=100
-    export function encodeText(txtv: string) {
+    export function encodeString(txtv: string) {
         let numarrv: number[] = []
         for (let i = 0; i < txtv.length; i++) {
             let numv = txtv.charCodeAt(i), bytelen = bitcalc(numv)
@@ -37,10 +37,10 @@ namespace DataBuffer {
      */
     //% blockid=databuff_decode_string
     //% block="get buffer of $bufv convert to string"
-    //% bufv.shadow=variables_get bufv.defl=buffer
+    //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="string"
     //% weight=75
-    export function decodeText(bufv: Buffer) {
+    export function decodeString(bufv: Buffer) {
         let strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0
         for (let i = 1; i < bufv.length; i++) {
             if (bytelen > 0) {
@@ -60,10 +60,10 @@ namespace DataBuffer {
      * @returns after convert array of string to buffer string
      */
     //% blockid=databuff_encode_string_array
-    //% block="get string array of $txtarr convert to buffer"
+    //% block="get array string of $txtarr convert to buffer"
     //% group="string"
     //% weight=50
-    export function encodeTextArray(txtarr: string[]) {
+    export function encodeStringArray(txtarr: string[]) {
         let numarrv: number[] = []
         for (let txtv of txtarr) {
             for (let i = 0; i < txtv.length; i++) {
@@ -82,11 +82,11 @@ namespace DataBuffer {
      * @returns after convert buffer to array of string
      */
     //% blockid=databuff_decode_string_array
-    //% block="get buffer of $bufv convert to string array"
-    //% bufv.shadow=variables_get bufv.defl=buffer
+    //% block="get buffer of $bufv convert to array string"
+    //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="string"
     //% weight=25
-    export function decodeTextArray(bufv: Buffer) {
+    export function decodeStringArray(bufv: Buffer) {
         let strarr: string[] = [], strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0
         for (let i = 1; i < bufv.length; i++) {
             if (bytelen > 0) {
@@ -145,7 +145,7 @@ namespace DataBuffer {
      */
     //% blockid=databuff_decode_image
     //% block="get buffer of $bufv convert to image"
-    //% bufv.shadow=variables_get bufv.defl=buffer
+    //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="image"
     //% weight=75
     export function decodeImage(bufv: Buffer) {
@@ -234,7 +234,7 @@ namespace DataBuffer {
      */
     //% blockid=databuff_decode_image_array
     //% block="get buffer of $bufv convert to array image"
-    //% bufv.shadow=variables_get bufv.defl=buffer
+    //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="image"
     //% weight=25
     export function decodeImageArray(bufv: Buffer) {
