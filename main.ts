@@ -3,8 +3,10 @@
 //% block="Data buffer" color="#7C9BDE" icon="\uf187"
 namespace DataBuffer {
 
-    function bitcalc(nv: number, bl: number) {
-        const bsum = bl ** 2 * 4, isum = Math.ceil(Math.log(nv) / Math.log(bsum))
+    const bytemax = 8 ** 2 * 4
+    
+    function bitcalc(nv: number) {
+        const bsum = bytemax, isum = Math.ceil(Math.log(nv) / Math.log(bsum))
         return isum
     }
 
@@ -20,7 +22,7 @@ namespace DataBuffer {
     export function encodeText(txtv: string) {
         let numarrv: number[] = []
         for (let i = 0; i < txtv.length; i++) {
-            let numv = txtv.charCodeAt(i), bytelen = bitcalc(numv, 8), bytemax = 8 ** 2 * 4
+            let numv = txtv.charCodeAt(i), bytelen = bitcalc(numv)
             numarrv.push(bytelen)
             for (let j = 0; j < bytelen; j++) { numarrv.push(numv % bytemax)
             numv = Math.floor(numv / bytemax) }
@@ -39,7 +41,7 @@ namespace DataBuffer {
     //% group="string"
     //% weight=75
     export function decodeText(bufv: Buffer) {
-        let strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0, bytemax = 8 ** 2 * 4
+        let strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0
         for (let i = 1; i < bufv.length; i++) {
             if (bytelen > 0) {
                 if (bytesum > 0) byteval += bufv[i] * bytesum
@@ -65,7 +67,7 @@ namespace DataBuffer {
         let numarrv: number[] = []
         for (let txtv of txtarr) {
             for (let i = 0; i < txtv.length; i++) {
-                let numv = txtv.charCodeAt(i), bytelen = bitcalc(numv, 8), bytemax = 8 ** 2 * 4
+                let numv = txtv.charCodeAt(i), bytelen = bitcalc(numv)
                 numarrv.push(bytelen)
                 for (let j = 0; j < bytelen; j++) { numarrv.push(numv % bytemax)
                 numv = Math.floor(numv / bytemax) }
@@ -85,7 +87,7 @@ namespace DataBuffer {
     //% group="string"
     //% weight=25
     export function decodeTextArr(bufv: Buffer) {
-        let strarr: string[] = [], strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0, bytemax = 8 ** 2 * 4
+        let strarr: string[] = [], strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0
         for (let i = 1; i < bufv.length; i++) {
             if (bytelen > 0) {
                 if (bytesum > 0) byteval += bufv[i] * bytesum
@@ -111,10 +113,10 @@ namespace DataBuffer {
     //% weight=100
     export function encodeImage(img: Image) {
         let numarrv: number[] = [], bytelen: number,bytemax: number, numv: number, numc: number
-        numv = img.width, bytelen = bitcalc(numv, 8), bytemax = 8 ** 2 * 4, numarrv.push(bytelen)
+        numv = img.width, bytelen = bitcalc(numv), numarrv.push(bytelen)
         while (numv > 0) { numarrv.push(numv % bytemax)
         numv = Math.floor(numv / bytemax) }
-        numv = img.height, bytelen = bitcalc(numv, 8), numarrv.push(bytelen)
+        numv = img.height, bytelen = bitcalc(numv), numarrv.push(bytelen)
         while (numv > 0) { numarrv.push(numv % bytemax)
         numv = Math.floor(numv / bytemax) }
         numv = img.getPixel(0, 0), numc = 1
@@ -123,14 +125,14 @@ namespace DataBuffer {
             if (img.getPixel(xi, yi) == numv) {
                 numc++
             } else {
-                bytelen = Math.max(bitcalc(numc, 8), 1), numarrv.push(bytelen)
+                bytelen = Math.max(bitcalc(numc), 1), numarrv.push(bytelen)
                 while (numc > 0) { numarrv.push(numc % bytemax)
                 numc = Math.floor(numc / bytemax)
                 bytelen-- } numarrv.push(numv)
                 numv = img.getPixel(xi, yi), numc = 1
             }
         }
-        bytelen = Math.max(bitcalc(numc, 8), 1), numarrv.push(bytelen)
+        bytelen = Math.max(bitcalc(numc), 1), numarrv.push(bytelen)
         while (numc > 0) { numarrv.push(numc % bytemax)
         numc = Math.floor(numc / bytemax), bytelen-- } numarrv.push(numv)
         return pins.createBufferFromArray(numarrv)
@@ -147,7 +149,7 @@ namespace DataBuffer {
     //% group="image"
     //% weight=50
     export function decodeImage(bufv: Buffer) {
-        let i = 0, bytemax = 8 ** 2 * 4, bytelen = bufv[i], byteval = 0, bytesum = 0, w = 0, h = 0, img: Image, imgRowBuffer: Buffer
+        let i = 0, bytelen = bufv[i], byteval = 0, bytesum = 0, w = 0, h = 0, img: Image, imgRowBuffer: Buffer
         while (bytelen > 0) { i++
             if (bytesum > 0) byteval += bufv[i] * bytesum
             else byteval += bufv[i]
