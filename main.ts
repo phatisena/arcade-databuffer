@@ -9,6 +9,110 @@ namespace DataBuffer {
         const bsum = bytemax, isum = Math.ceil(Math.log(nv) / Math.log(bsum))
         return isum
     }
+    
+    /**
+     * convert int number to buffer string
+     * @param int number to encode
+     * @returns after convert int number to buffer string
+     */
+    //% blockid=databuff_encode_intenger
+    //% block="get int number of $num convert to buffer string"
+    //% group="intenger number"
+    //% weight=100
+    export function encodeInt(num: number) {
+        let arrnv: number[] = []
+        num = Math.round(num)
+        let bytelen = Math.max(bitcalc(Math.abs(num)), 1)
+        bytelen += (num < 0)? Math.floor(bytemax / 2) : 0
+        arrnv.push(bytelen)
+        while (bytelen > 0) { arrnv.push(num % bytemax)
+        num = Math.floor(num / bytemax)
+        bytelen-- }
+        return pins.createBufferFromArray(arrnv)
+    }
+
+    /**
+     * convert buffer string to int number
+     * @param buffer string to decode
+     * @returns after convert buffer string to int number
+     */
+    //% blockid=databuff_decode_intenger
+    //% block="get buffer of $bufv convert to int number"
+    //% bufv.shadow=variables_get bufv.defl=bufval
+    //% group="intenger number"
+    //% weight=50
+    export function decodeInt(bufv: Buffer) {
+        let byteval = 0, bytelen = bufv[0], bytesum = 0
+        let negative = (Math.floor(bytelen / Math.floor(bytemax / 2)) > 0)
+        bytelen -= (negative)? Math.floor(bytemax / 2) : 0
+        for (let i = 1;i < bufv.length;i++) {
+            if (bytelen > 0) {
+            if (bytesum > 0) byteval += bufv[0] * bytesum
+            else byteval += bufv[i]
+            bytesum = (bytesum > 0)? bytesum * bytemax : bytemax
+            bytelen-- }
+        }
+        if (negative) byteval = (0 - byteval)
+        return byteval
+    }
+
+    /**
+     * convert int number array to buffer string
+     * @param int number array to encode
+     * @returns after convert int number array to buffer string
+     */
+    //% blockid=databuff_encode_intenger_array
+    //% block="get int number array of $numav convert to buffer string"
+    //% group="intenger number"
+    //% weight=100
+    export function encodeIntArray(numav: number[]) {
+        let arrnv: number[] = []
+        for (let num of numav) {
+            num = Math.round(num)
+            let bytelen = Math.max(bitcalc(Math.abs(num)), 1)
+            bytelen += (num < 0) ? Math.floor(bytemax / 2) : 0
+            arrnv.push(bytelen)
+            while (bytelen > 0) {
+                arrnv.push(num % bytemax)
+                num = Math.floor(num / bytemax)
+                bytelen--
+            }
+            arrnv.push(0)
+        }
+        return pins.createBufferFromArray(arrnv)
+    }
+
+    /**
+     * convert buffer string to int number array
+     * @param buffer string to decode
+     * @returns after convert buffer string to int number array
+     */
+    //% blockid=databuff_decode_intenger_array
+    //% block="get buffer of $bufv convert to int number array"
+    //% bufv.shadow=variables_get bufv.defl=bufval
+    //% group="intenger number"
+    //% weight=50
+    export function decodeIntArray(bufv: Buffer) {
+        let byteval = 0, bytelen = bufv[0], bytesum = 0, numav: number[] = []
+        let negative = (Math.floor(bytelen / Math.floor(bytemax / 2)) > 0)
+        bytelen -= (negative) ? Math.floor(bytemax / 2) : 0
+        for (let i = 1; i < bufv.length; i++) {
+            if (bytelen > 0) {
+                if (bytesum > 0) byteval += bufv[0] * bytesum
+                else byteval += bufv[i]
+                bytesum = (bytesum > 0) ? bytesum * bytemax : bytemax
+                bytelen--
+            } else if (bytelen <= 0 && bufv[0] <= 0) {
+                if (negative) byteval = (0 - byteval)
+                numav.push(byteval)
+            } else {
+                byteval = 0, bytelen = bufv[i], bytesum = 0
+                negative = (Math.floor(bytelen / Math.floor(bytemax / 2)) > 0)
+                bytelen -= (negative) ? Math.floor(bytemax / 2) : 0
+            }
+        }
+        return byteval
+    }
 
     /**
      * convert string to buffer string
