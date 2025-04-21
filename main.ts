@@ -22,9 +22,9 @@ namespace DataBuffer {
     export function encodeInt(num: number): Buffer {
         let arrnv: number[] = []
         num = Math.round(num)
-        let bytelen = Math.max(bitcalc(Math.abs(num)), 1)
-        bytelen += (num < 0)? Math.floor(bytemax / 2) : 0
-        arrnv.push(bytelen)
+        let bytelen = Math.max(bitcalc(Math.abs(num)), 1), halfbyte = (num < 0)? Math.floor(bytemax / 2) : 0
+        num = Math.abs(num)
+        arrnv.push(bytelen + halfbyte)
         while (bytelen > 0) { arrnv.push(num % bytemax)
         num = Math.floor(num / bytemax)
         bytelen-- }
@@ -69,9 +69,10 @@ namespace DataBuffer {
         let arrnv: number[] = []
         for (let num of numav) {
             num = Math.round(num)
-            let bytelen = Math.max(bitcalc(Math.abs(num)), 1)
-            bytelen += (num < 0) ? Math.floor(bytemax / 2) : 0
-            arrnv.push(bytelen)
+            let bytelen = Math.max(bitcalc(Math.abs(num)), 1), halfbyte = (num < 0) ? Math.floor(bytemax / 2) : 0
+            num = Math.abs(num)
+            arrnv.push(bytelen + halfbyte)
+            bytelen -= (num < 0) ? Math.floor(bytemax / 2) : 0
             while (bytelen > 0) { arrnv.push(num % bytemax)
             num = Math.floor(num / bytemax)
             bytelen-- }
