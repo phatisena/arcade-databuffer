@@ -100,7 +100,7 @@ namespace DataBuffer {
                 if (bytesum > 0) byteval += bufv[i] * bytesum
                 else byteval += bufv[i]
                 bytesum = (bytesum > 0) ? bytesum * bytemax : bytemax
-            bytelen-- } else if (bytelen <= 0 && bufv[0] <= 0) {
+            bytelen-- } else if (bytelen <= 0 && bufv[i] <= 0) {
                 if (negative) byteval = (0 - byteval)
             numav.push(byteval) } else {
                 byteval = 0, bytelen = bufv[i], bytesum = 0
