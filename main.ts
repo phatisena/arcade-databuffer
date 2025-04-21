@@ -72,11 +72,9 @@ namespace DataBuffer {
             let bytelen = Math.max(bitcalc(Math.abs(num)), 1)
             bytelen += (num < 0) ? Math.floor(bytemax / 2) : 0
             arrnv.push(bytelen)
-            while (bytelen > 0) {
-                arrnv.push(num % bytemax)
-                num = Math.floor(num / bytemax)
-                bytelen--
-            }
+            while (bytelen > 0) { arrnv.push(num % bytemax)
+            num = Math.floor(num / bytemax)
+            bytelen-- }
             arrnv.push(0)
         }
         return pins.createBufferFromArray(arrnv)
@@ -101,11 +99,9 @@ namespace DataBuffer {
                 if (bytesum > 0) byteval += bufv[0] * bytesum
                 else byteval += bufv[i]
                 bytesum = (bytesum > 0) ? bytesum * bytemax : bytemax
-                bytelen--
-            } else if (bytelen <= 0 && bufv[0] <= 0) {
+            bytelen-- } else if (bytelen <= 0 && bufv[0] <= 0) {
                 if (negative) byteval = (0 - byteval)
-                numav.push(byteval)
-            } else {
+            numav.push(byteval) } else {
                 byteval = 0, bytelen = bufv[i], bytesum = 0
                 negative = (Math.floor(bytelen / Math.floor(bytemax / 2)) > 0)
                 bytelen -= (negative) ? Math.floor(bytemax / 2) : 0
@@ -197,7 +193,7 @@ namespace DataBuffer {
                 if (bytesum > 0) byteval += bufv[i] * bytesum
                 else byteval += bufv[i] 
                 bytesum = (bytesum > 0) ? bytesum * bytemax : bytemax
-            bytelen-- } else if (bytelen <= 0 && bytelen == bufv[i]) {
+            bytelen-- } else if (bytelen <= 0 && bufv[i] <= 0) {
                 strtxt += String.fromCharCode(byteval), strarr.push(strtxt), strtxt = ""
             } else {
                 bytelen = bufv[i], strtxt += String.fromCharCode(byteval), byteval = 0, bytesum = 0
