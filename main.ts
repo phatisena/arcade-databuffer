@@ -19,7 +19,7 @@ namespace DataBuffer {
     //% block="get int number of $num convert to buffer string"
     //% group="intenger number"
     //% weight=100
-    export function encodeInt(num: number) {
+    export function encodeInt(num: number): Buffer {
         let arrnv: number[] = []
         num = Math.round(num)
         let bytelen = Math.max(bitcalc(Math.abs(num)), 1)
@@ -41,7 +41,7 @@ namespace DataBuffer {
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="intenger number"
     //% weight=75
-    export function decodeInt(bufv: Buffer) {
+    export function decodeInt(bufv: Buffer): number {
         let byteval = 0, bytelen = bufv[0], bytesum = 0
         let negative = (Math.floor(bytelen / Math.floor(bytemax / 2)) > 0)
         bytelen -= (negative)? Math.floor(bytemax / 2) : 0
@@ -65,7 +65,7 @@ namespace DataBuffer {
     //% block="get int number array of $numav convert to buffer string"
     //% group="intenger number"
     //% weight=50
-    export function encodeIntArray(numav: number[]) {
+    export function encodeIntArray(numav: number[]): Buffer {
         let arrnv: number[] = []
         for (let num of numav) {
             num = Math.round(num)
@@ -90,7 +90,7 @@ namespace DataBuffer {
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="intenger number"
     //% weight=25
-    export function decodeIntArray(bufv: Buffer) {
+    export function decodeIntArray(bufv: Buffer): number[] {
         let byteval = 0, bytelen = bufv[0], bytesum = 0, numav: number[] = []
         let negative = (Math.floor(bytelen / Math.floor(bytemax / 2)) > 0)
         bytelen -= (negative) ? Math.floor(bytemax / 2) : 0
@@ -107,7 +107,7 @@ namespace DataBuffer {
                 bytelen -= (negative) ? Math.floor(bytemax / 2) : 0
             }
         }
-        return byteval
+        return numav
     }
 
     /**
@@ -119,7 +119,7 @@ namespace DataBuffer {
     //% block="get string of $txtv convert to buffer"
     //% group="string"
     //% weight=100
-    export function encodeString(txtv: string) {
+    export function encodeString(txtv: string): Buffer {
         let numarrv: number[] = []
         for (let i = 0; i < txtv.length; i++) {
             let numv = txtv.charCodeAt(i), bytelen = bitcalc(numv)
@@ -140,7 +140,7 @@ namespace DataBuffer {
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="string"
     //% weight=75
-    export function decodeString(bufv: Buffer) {
+    export function decodeString(bufv: Buffer): string {
         let strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0
         for (let i = 1; i < bufv.length; i++) {
             if (bytelen > 0) {
@@ -163,7 +163,7 @@ namespace DataBuffer {
     //% block="get array string of $txtarr convert to buffer"
     //% group="string"
     //% weight=50
-    export function encodeStringArray(txtarr: string[]) {
+    export function encodeStringArray(txtarr: string[]): Buffer {
         let numarrv: number[] = []
         for (let txtv of txtarr) {
             for (let i = 0; i < txtv.length; i++) {
@@ -186,7 +186,7 @@ namespace DataBuffer {
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="string"
     //% weight=25
-    export function decodeStringArray(bufv: Buffer) {
+    export function decodeStringArray(bufv: Buffer): string[] {
         let strarr: string[] = [], strtxt: string = "", bytelen = bufv[0], bytesum = 0, byteval = 0
         for (let i = 1; i < bufv.length; i++) {
             if (bytelen > 0) {
@@ -211,7 +211,7 @@ namespace DataBuffer {
     //% block="get image of $img=screen_image_picker convert to buffer"
     //% group="image"
     //% weight=100
-    export function encodeImage(img: Image) {
+    export function encodeImage(img: Image): Buffer {
         let numarrv: number[] = [], bytelen: number, numv: number, numc: number
         numv = img.width, bytelen = bitcalc(numv), numarrv.push(bytelen)
         while (numv > 0) { numarrv.push(numv % bytemax)
@@ -248,7 +248,7 @@ namespace DataBuffer {
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="image"
     //% weight=75
-    export function decodeImage(bufv: Buffer) {
+    export function decodeImage(bufv: Buffer): Image {
         let i = 0, bytelen = bufv[i], byteval = 0, bytesum = 0, w = 0, h = 0, img: Image, imgRowBuffer: Buffer
         while (bytelen > 0) { i++
             if (bytesum > 0) byteval += bufv[i] * bytesum
@@ -297,7 +297,7 @@ namespace DataBuffer {
     //% imgarr.shadow=lists_create_with imgarr.defl=screen_image_picker
     //% group="image"
     //% weight=50
-    export function encodeImageArray(imgarr: Image[]) {
+    export function encodeImageArray(imgarr: Image[]): Buffer {
         let numarrv: number[] = [], bytelen: number, numv: number, numc: number
         for (let img of imgarr) {
             numv = img.width, bytelen = bitcalc(numv), numarrv.push(bytelen)
@@ -337,7 +337,7 @@ namespace DataBuffer {
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="image"
     //% weight=25
-    export function decodeImageArray(bufv: Buffer) {
+    export function decodeImageArray(bufv: Buffer): Image[] {
         let i = 0, imgarr: Image[] = [], bytelen = bufv[i], byteval = 0, bytesum = 0, w = 0, h = 0, img: Image, imgRowBuffer: Buffer
         while (i < bufv.length) {
         while (bytelen > 0) { i++
