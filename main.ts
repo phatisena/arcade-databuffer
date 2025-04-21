@@ -15,7 +15,7 @@ namespace DataBuffer {
      * @param int number to encode
      * @returns after convert int number to buffer string
      */
-    //% blockid=databuff_encode_intenger
+    //% blockid=databuff_encode_integer
     //% block="get int number of $num convert to buffer string"
     //% group="intenger number"
     //% weight=100
@@ -36,7 +36,7 @@ namespace DataBuffer {
      * @param buffer string to decode
      * @returns after convert buffer string to int number
      */
-    //% blockid=databuff_decode_intenger
+    //% blockid=databuff_decode_integer
     //% block="get buffer of $bufv convert to int number"
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="intenger number"
@@ -47,7 +47,7 @@ namespace DataBuffer {
         bytelen -= (negative)? Math.floor(bytemax / 2) : 0
         for (let i = 1;i < bufv.length;i++) {
             if (bytelen > 0) {
-            if (bytesum > 0) byteval += bufv[0] * bytesum
+            if (bytesum > 0) byteval += bufv[i] * bytesum
             else byteval += bufv[i]
             bytesum = (bytesum > 0)? bytesum * bytemax : bytemax
             bytelen-- }
@@ -61,7 +61,7 @@ namespace DataBuffer {
      * @param int number array to encode
      * @returns after convert int number array to buffer string
      */
-    //% blockid=databuff_encode_intenger_array
+    //% blockid=databuff_encode_integer_array
     //% block="get int number array of $numav convert to buffer string"
     //% group="intenger number"
     //% weight=50
@@ -86,7 +86,7 @@ namespace DataBuffer {
      * @param buffer string to decode
      * @returns after convert buffer string to int number array
      */
-    //% blockid=databuff_decode_intenger_array
+    //% blockid=databuff_decode_integer_array
     //% block="get buffer of $bufv convert to int number array"
     //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="intenger number"
@@ -97,7 +97,7 @@ namespace DataBuffer {
         bytelen -= (negative) ? Math.floor(bytemax / 2) : 0
         for (let i = 1; i < bufv.length; i++) {
             if (bytelen > 0) {
-                if (bytesum > 0) byteval += bufv[0] * bytesum
+                if (bytesum > 0) byteval += bufv[i] * bytesum
                 else byteval += bufv[i]
                 bytesum = (bytesum > 0) ? bytesum * bytemax : bytemax
             bytelen-- } else if (bytelen <= 0 && bufv[0] <= 0) {
