@@ -17,7 +17,7 @@ namespace DataBuffer {
      */
     //% blockid=databuff_encode_integer
     //% block="get int number of $num convert to buffer string"
-    //% group="intenger number"
+    //% group="integer number"
     //% weight=100
     export function encodeInt(num: number): Buffer {
         let arrnv: number[] = []
@@ -39,7 +39,7 @@ namespace DataBuffer {
     //% blockid=databuff_decode_integer
     //% block="get buffer of $bufv convert to int number"
     //% bufv.shadow=variables_get bufv.defl=bufval
-    //% group="intenger number"
+    //% group="integer number"
     //% weight=75
     export function decodeInt(bufv: Buffer): number {
         let byteval = 0, bytelen = bufv[0], bytesum = 0
@@ -63,7 +63,7 @@ namespace DataBuffer {
      */
     //% blockid=databuff_encode_integer_array
     //% block="get int number array of $numav convert to buffer string"
-    //% group="intenger number"
+    //% group="integer number"
     //% weight=50
     export function encodeIntArray(numav: number[]): Buffer {
         let arrnv: number[] = []
@@ -89,7 +89,7 @@ namespace DataBuffer {
     //% blockid=databuff_decode_integer_array
     //% block="get buffer of $bufv convert to int number array"
     //% bufv.shadow=variables_get bufv.defl=bufval
-    //% group="intenger number"
+    //% group="integer number"
     //% weight=25
     export function decodeIntArray(bufv: Buffer): number[] {
         let byteval = 0, bytelen = bufv[0], bytesum = 0, numav: number[] = []
