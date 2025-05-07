@@ -3,11 +3,32 @@
 //% block="Data buffer" color="#7C9BDE" icon="\uf187"
 namespace DataBuffer {
 
-    const bytemax: number = Math.round(8 ** 2 * 4)
+    const bytemax: number = Math.round(8 ** 2 * 4), palHex = "0123456789abcdef"
     
     function bitcalc(nv: number) {
         const bsum = bytemax, isum = Math.ceil(Math.log(nv) / Math.log(bsum))
         return isum
+    }
+
+    export function buf2str(bufv: Buffer) {
+        let strv = ""
+        for (let i = 0;i < bufv.length;i++) {
+            const nbuf = bufv[i]
+            strv += palHex.charAt(Math.floor(nbuf / 16)) + palHex.charAt(nbuf % 16)
+        }
+        return strv
+    }
+
+    export function str2buf(strv: string) {
+        strv = strv.toLowerCase()
+        if (strv.length % 2 > 0) return null
+        for (let t of strv) if (!palHex.includes(t)) return null
+        let numl: number[] = []
+        for (let i = 0;i < strv.length;i+=2) {
+            const t1 = strv.charAt(i), t2 = strv.charAt(i+1)
+            numl.push((palHex.indexOf(t1) * 16) + palHex.indexOf(t2))
+        }
+        return pins.createBufferFromArray(numl)
     }
     
     /**
