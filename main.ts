@@ -1,5 +1,4 @@
 
-
 //% block="Data buffer" color="#7C9BDE" icon="\uf187"
 namespace DataBuffer {
 
@@ -16,7 +15,8 @@ namespace DataBuffer {
      * @returns after convert buffer to hex string
      */
     //% blockid=databuff_buf2str
-    //% block="convert buffer $num to hex string"
+    //% block="convert buffer $bufv to hex string"
+    //% bufv.shadow=variables_get bufv.defl=bufval
     //% group="buffer converter"
     //% weight=100
     export function buf2str(bufv: Buffer) {
@@ -34,7 +34,7 @@ namespace DataBuffer {
      * @returns after convert hex string to buffer
      */
     //% blockid=databuff_str2buf
-    //% block="convert hex string $num to buffer"
+    //% block="convert hex string $strv to buffer"
     //% group="buffer converter"
     //% weight=50
     export function str2buf(strv: string) {
