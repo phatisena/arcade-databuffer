@@ -10,6 +10,15 @@ namespace DataBuffer {
         return isum
     }
 
+    /**
+     * convert buffer to hex string
+     * @param buffer string to convert
+     * @returns after convert buffer to hex string
+     */
+    //% blockid=databuff_buf2str
+    //% block="convert buffer $num to hex string"
+    //% group="buffer converter"
+    //% weight=100
     export function buf2str(bufv: Buffer) {
         let strv = ""
         for (let i = 0;i < bufv.length;i++) {
@@ -19,6 +28,15 @@ namespace DataBuffer {
         return strv
     }
 
+    /**
+     * convert hex string to buffer
+     * @param hex string to convert
+     * @returns after convert hex string to buffer
+     */
+    //% blockid=databuff_str2buf
+    //% block="convert hex string $num to buffer"
+    //% group="buffer converter"
+    //% weight=50
     export function str2buf(strv: string) {
         strv = strv.toLowerCase()
         if (strv.length % 2 > 0) return null
